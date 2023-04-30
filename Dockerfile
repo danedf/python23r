@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM python:3.8
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
@@ -7,15 +7,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # install python2
 RUN apt-get install -y --no-install-recommends python2
-
-# install python3
-RUN apt-get install -y --no-install-recommends software-properties-common && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-    python3.8 \
-    python3-pip \
-    python-setuptools
 
 # install repository adding prerequisites
 RUN apt-get install -y --no-install-recommends \
@@ -29,8 +20,11 @@ RUN apt-get install -y --no-install-recommends \
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
 
-# install r
-RUN apt-get install -y --no-install-recommends r-base
+# install r and its requirements
+RUN apt-get install -y --no-install-recommends \
+    liblapack-dev \
+    libblas-dev \
+    r-base
 
 # install python3 requirements
 COPY requirements.txt .
