@@ -22,12 +22,9 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     
-    - name: Determine tag
-      run: echo "TAG_NAME=$(date +%s)" >> $TAG_NAME
-    
     - name: Build docker image
-      run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/doomflute:$TAG_NAME
+      run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/doomflute:latest
       
 
     - name: Push to dockerhub
-      run: docker push ${{secrets.DOCKER_USER}}/doomflute:$TAG_NAME
+      run: docker push ${{secrets.DOCKER_USER}}/doomflute:latest
