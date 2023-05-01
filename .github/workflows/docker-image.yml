@@ -15,16 +15,19 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: docker login
+    - name: Docker login
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     
+    - name: Determine tag
+      run: echo "TAG_NAME=$(date +%s)" >> $TAG_NAME
+    
     - name: Build docker image
-      run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/doomflute:$(date +%s)
+      run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/doomflute:$TAG_NAME
       
 
     - name: Push to dockerhub
-      run: docker push ${{secrets.DOCKER_USER}}/doomflute
+      run: docker push ${{secrets.DOCKER_USER}}/doomflute:$TAG_NAME
