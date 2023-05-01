@@ -23,7 +23,7 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     
     - name: Build docker image
-      run: docker build . --file Dockerfile --tag doomflute/python23r:$(date +%s)
+      run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/doomflute:$(date +%s)
       
 
     - name: Push to dockerhub
