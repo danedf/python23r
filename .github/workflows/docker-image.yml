@@ -25,6 +25,10 @@ jobs:
     - name: Build docker image
       run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/doomflute:latest
       
+    - name: Scan for vulnerabilities
+      uses: crazy-max/ghaction-container-scan@v2
+      with:
+        image: ${{secrets.DOCKER_USER}}/doomflute:latest
 
     - name: Push to dockerhub
       run: docker push ${{secrets.DOCKER_USER}}/doomflute:latest
